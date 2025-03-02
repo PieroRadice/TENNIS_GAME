@@ -1,0 +1,14 @@
+{
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 5432,
+      "driver": "PostgreSQL",
+      "name": "COIsequelize",
+      "database": "utenticoi_1",
+      "username": "postgres",
+      "password": "tua_password"
+    }
+  ]
+}

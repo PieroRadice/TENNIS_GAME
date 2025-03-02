@@ -1,0 +1,86 @@
+/* Stile generale per l'header */
+header {
+  position: relative;
+  background-color: #333;
+  padding: 10px;
+}
+
+.hamburger-menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+}
+
+.menu-toggle {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.5em;
+  cursor: pointer;
+  display: block; /* Visibile solo sui dispositivi mobili */
+}
+
+.menu {
+  display: none; /* Nascondi il menu di default */
+  flex-direction: column;
+  background-color: #444;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  z-index: 10;
+  transition: all 0.3s ease-in-out; /* Aggiunge una transizione per un effetto fluido */
+}
+
+.menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu li {
+  border-bottom: 1px solid #555;
+}
+
+.menu li:last-child {
+  border-bottom: none;
+}
+
+.menu a {
+  display: block;
+  padding: 10px;
+  color: #fff;
+  text-decoration: none;
+}
+
+.menu a:hover {
+  background-color: #555;
+}
+
+/* Visualizza il menu quando attivo */
+.menu.open {
+  display: flex; /* Mostra il menu */
+}
+
+/* Modifiche per schermi più grandi */
+@media (min-width: 768px) {
+  .menu {
+    display: flex; /* Mostra il menu sempre per schermi grandi */
+    flex-direction: row; /* Disposizione in orizzontale */
+    position: static; /* Posizione statica per schermi grandi */
+    background-color: transparent;
+  }
+  .menu ul {
+    display: flex;
+  }
+  .menu li {
+    border: none;
+  }
+  .menu a {
+    padding: 10px 15px;
+  }
+  .menu-toggle {
+    display: none; /* Nasconde l'icona del menu a panino */
+  }
+}

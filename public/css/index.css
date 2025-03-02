@@ -1,0 +1,70 @@
+/* Stili per la griglia dei tornei */
+.tournament-grid {
+  display: flex;
+  flex-wrap: wrap; /* Permette ai bottoni di andare a capo */
+  gap: 20px; /* Spazio tra i bottoni */
+  justify-content: center; /* Centra i bottoni orizzontalmente */
+  padding: 20px;
+}
+/* Stili per i bottoni dei tornei */
+.tournament-button {
+  width: 150px;
+  height: 150px;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  text-decoration: none;
+  color: #000;
+  font-weight: bold;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative; /* Necessario per posizionare il segnaposto */
+  overflow: visible; /* Permette al segnaposto di sporgere */
+  margin-top: 30px; /* Spazio per il segnaposto */
+}
+/* Stili per i tornei conclusi */
+.tournament-button.completed {
+  opacity: 0.6;
+  border-color: #ccc;
+}
+
+/* Stili per i tornei in corso */
+.tournament-button.in-progress {
+  border-color: #ffa500;
+  box-shadow: 0 0 10px #ffa500;
+}
+
+/* Stili per i tornei futuri */
+.tournament-button.upcoming {
+  border-color: #4caf50;
+  box-shadow: 0 0 10px #4caf50;
+}
+/* Stili per il segnaposto */
+.tournament-button .timeline-marker {
+  position: absolute;
+  top: -25px; /* Posizione sopra il bottone */
+  left: 50%; /* Centrato orizzontalmente */
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Linea verticale */
+.tournament-button .timeline-marker .line {
+  /*width: 2px;*/
+  height: 20px;
+  background-color: #000;
+}
+
+/* Indicazione del mese */
+.tournament-button .timeline-marker .month {
+  font-size: 0.8em;
+  color: #555;
+  white-space: nowrap;
+}

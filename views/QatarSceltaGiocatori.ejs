@@ -1,0 +1,159 @@
+<%- include('partials/header'); -%>
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Selezione Vincitore Torneo</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .players-container,
+      .semifinalists-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+      }
+      .player {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 150px;
+        border: 1px solid #ccc;
+        padding: 10px;
+        border-radius: 5px;
+        text-align: center;
+      }
+      .player img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        margin-bottom: 5px;
+      }
+      .semifinalists {
+        margin-top: 20px;
+      }
+      .winner {
+        background-color: orange;
+        padding: 5px;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Seleziona il vincitore</h2>
+    <div id="semifinalists-list" class="semifinalists-container"></div>
+
+    <h2>Seleziona i semifinalisti (max 4)</h2>
+    <div id="players-list" class="players-container"></div>
+
+    <h3>
+      Vincitore:
+      <span id="winner-name"
+        >Seleziona prima i semifinalisti e poi, fra di loro, il vincitore</span
+      >
+    </h3>
+
+    <script>
+      fetch("/json/DOHA_1-100_atp_players.json")
+        .then((response) => response.json())
+        .then((players) => {
+          const playersList = document.getElementById("players-list");
+          const semifinalistsList =
+            document.getElementById("semifinalists-list");
+          const winnerName = document.getElementById("winner-name");
+          let semifinalists = [];
+
+          function updateSemifinalists() {
+            semifinalistsList.innerHTML = "";
+            semifinalists.forEach((player) => {
+              const radio = document.createElement("input");
+              radio.type = "radio";
+              radio.name = "winner";
+              radio.value = player.name;
+              radio.onchange = () => {
+                winnerName.innerText = player.name;
+                document
+                  .querySelectorAll(".winner")
+                  .forEach((el) => el.classList.remove("winner"));
+                document
+                  .getElementById(`semi-${player.name}`)
+                  .classList.add("winner");
+              };
+              const img = document.createElement("img");
+              img.src = player.image_src || "default.jpg";
+              img.alt = player.image_alt || player.name;
+              const rank = document.createElement("div");
+              rank.textContent = `ranking: ${player.rank}`;
+
+              const label = document.createElement("label");
+              label.textContent = player.name;
+
+              const country = document.createElement("div");
+              country.textContent = player.country;
+
+              const div = document.createElement("div");
+              div.classList.add("player");
+              div.id = `semi-${player.name}`;
+              div.appendChild(img);
+              div.appendChild(radio);
+              div.appendChild(label);
+              div.appendChild(country);
+              div.appendChild(rank);
+              semifinalistsList.appendChild(div);
+            });
+          }
+
+          players.forEach((player) => {
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.value = player.name;
+            checkbox.onchange = () => {
+              if (checkbox.checked) {
+                if (semifinalists.length < 4) {
+                  semifinalists.push(player);
+                } else {
+                  checkbox.checked = false;
+                  alert("Puoi selezionare massimo 4 semifinalisti!");
+                }
+              } else {
+                semifinalists = semifinalists.filter(
+                  (p) => p.name !== player.name
+                );
+              }
+              updateSemifinalists();
+            };
+
+            const img = document.createElement("img");
+            img.src = player.image_src || "default.jpg";
+            img.alt = player.image_alt || player.name;
+
+            const rank = document.createElement("div");
+            rank.textContent = `ranking: ${player.rank}`;
+
+            const label = document.createElement("label");
+            label.textContent = player.name;
+
+            const country = document.createElement("div");
+            country.textContent = player.country;
+
+            const div = document.createElement("div");
+            div.classList.add("player");
+            div.appendChild(img);
+            div.appendChild(checkbox);
+            div.appendChild(label);
+            div.appendChild(country);
+            div.appendChild(rank);
+
+            playersList.appendChild(div);
+          });
+        })
+        .catch((error) =>
+          console.error("Errore nel caricamento del file JSON:", error)
+        );
+    </script>
+  </body>
+</html>
+<%- include('partials/footer'); -%>
