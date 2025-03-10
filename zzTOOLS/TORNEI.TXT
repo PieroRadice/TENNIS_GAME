@@ -1,0 +1,42 @@
+-- Crea la tabella tournaments
+CREATE TABLE tournaments (
+    id SERIAL PRIMARY KEY, 
+    name VARCHAR(255) NOT NULL, 
+    href VARCHAR(255), 
+    href_pptp VARCHAR(255),  
+    category VARCHAR(50), 
+    location VARCHAR(100), 
+    country VARCHAR(100), 
+    surface VARCHAR(50), 
+    prizeMoney INT,  -- Cambiato in INT
+    dataInizio DATE, 
+    dataFine DATE, 
+    status VARCHAR(20)
+);
+
+-- Inserisce i dati dal JSON
+INSERT INTO tournaments (name,  href,  category,  location,  country,  surface,  prizeMoney,  dataInizio,  dataFine,  status)
+VALUES
+    ('Australian Open',  'html/australianOpen.html',  'Grand Slam',  'Melbourne',  'Australia',  'Cemento',  61600000,  '2025-01-12',  '2025-01-26',  'completed'), 
+    ('Rotterdam',  'https://www.atptour.com/en/tournaments/rotterdam/407/overview',  'ATP 500',  'Rotterdam',  'Olanda',  'Cemento',  0,  '2025-02-12',  '2025-02-18',  'completed'), 
+    ('Qatar Open ATP',  'https://www.atptour.com/en/tournaments/doha/451/overview',  'ATP 500',  'Doha',  'Qatar',  'Cemento',  0,  '2025-02-17',  '2025-02-22',  'in-progress'), 
+    ('Indian Wells Masters',  'https://www.atptour.com/en/tournaments/indian-wells/404/overview',  'ATP Masters 1000',  'Indian Wells',  'Stati Uniti',  'Cemento',  0,  '2025-03-03',  '2025-03-16',  'upcoming'), 
+    ('Miami Open',  'https://www.atptour.com/en/tournaments/miami/403/overview',  'ATP Masters 1000',  'Miami',  'Stati Uniti',  'Cemento',  0,  '2025-03-17',  '2025-03-30',  'upcoming'), 
+    ('Monte-Carlo Masters',  'https://www.atptour.com/en/tournaments/monte-carlo/410/overview',  'ATP Masters 1000',  'Monte Carlo',  'Monaco',  'Terra rossa',  0,  '2025-04-07',  '2025-04-13',  'upcoming'), 
+    ('Barcelona Open Banc Sabadell',  'https://www.atptour.com/en/tournaments/barcelona/425/overview',  'ATP 500',  'Barcellona',  'Spagna',  'Terra rossa',  0,  '2025-04-14',  '2025-04-20',  'upcoming'), 
+    ('Madrid Open',  'https://www.atptour.com/en/tournaments/madrid/1536/overview',  'ATP Masters 1000',  'Madrid',  'Spagna',  'Terra rossa',  0,  '2025-04-28',  '2025-05-11',  'upcoming'), 
+    ('Italian Open (Roma)',  'https://www.atptour.com/en/tournaments/rome/416/overview',  'ATP Masters 1000',  'Roma',  'Italia',  'Terra rossa',  0,  '2025-05-12',  '2025-05-25',  'upcoming'), 
+    ('Roland Garros (French Open)',  'https://www.atptour.com/en/tournaments/roland-garros/520/overview',  'Grand Slam',  'Parigi',  'Francia',  'Terra rossa',  0,  '2025-05-25',  '2025-06-08',  'upcoming'), 
+    ('Halle Open',  'https://www.atptour.com/en/tournaments/halle/500/overview',  'ATP 500',  'Halle',  'Germania',  'Erba',  0,  '2025-06-16',  '2025-06-22',  'upcoming'), 
+    ('Queen''s Club Championships',  'https://www.atptour.com/en/tournaments/london/311/overview',  'ATP 500',  'Londra',  'Regno Unito',  'Erba',  0,  '2025-06-16',  '2025-06-22',  'upcoming'), 
+    ('Wimbledon',  'https://www.atptour.com/en/tournaments/wimbledon/540/overview',  'Grand Slam',  'Londra',  'Regno Unito',  'Erba',  0,  '2025-06-30',  '2025-07-13',  'upcoming'), 
+    ('Canadian Open',  'https://www.atptour.com/en/tournaments/canada/421/overview',  'ATP Masters 1000',  'Toronto/Montreal',  'Canada',  'Cemento',  0,  '2025-08-04',  '2025-08-17',  'upcoming'), 
+    ('Cincinnati Masters',  'https://www.atptour.com/en/tournaments/cincinnati/422/overview',  'ATP Masters 1000',  'Cincinnati',  'Stati Uniti',  'Cemento',  0,  '2025-08-18',  '2025-08-31',  'upcoming'), 
+    ('US Open',  'https://www.atptour.com/en/tournaments/us-open/560/overview',  'Grand Slam',  'New York',  'Stati Uniti',  'Cemento',  0,  '2025-08-25',  '2025-09-07',  'upcoming'), 
+    ('Shanghai Masters',  'https://www.atptour.com/en/tournaments/shanghai/5014/overview',  'ATP Masters 1000',  'Shanghai',  'Cina',  'Cemento',  0,  '2025-10-01',  '2025-10-12',  'upcoming'), 
+    ('China Open',  'https://www.atptour.com/en/tournaments/beijing/747/overview',  'ATP 500',  'Pechino',  'Cina',  'Cemento',  0,  '2025-09-30',  '2025-10-06',  'upcoming'), 
+    ('Rakuten Japan Open Tennis Championships',  'https://www.atptour.com/en/tournaments/tokyo/329/overview',  'ATP 500',  'Tokyo',  'Giappone',  'Cemento',  0,  '2025-10-07',  '2025-10-13',  'upcoming'), 
+    ('Paris Masters',  'https://www.atptour.com/en/tournaments/paris/352/overview',  'ATP Masters 1000',  'Parigi',  'Francia',  'Cemento indoor',  0,  '2025-10-27',  '2025-11-02',  'upcoming'), 
+    ('Erste Bank Open',  'https://www.atptour.com/en/tournaments/vienna/337/overview',  'ATP 500',  'Vienna',  'Austria',  'Cemento indoor',  0,  '2025-10-21',  '2025-10-27',  'upcoming'), 
+    ('Swiss Indoors Basel',  'https://www.atptour.com/en/tournaments/basel/328/overview',  'ATP 500',  'Basilea',  'Svizzera',  'Cemento indoor',  0,  '2025-10-21',  '2025-10-27',  'upcoming'), 
+    ('ATP Finals',  'https://www.atptour.com/en/tournaments/atp-finals/605/overview',  'ATP Finals',  'Torino',  'Italia',  'Cemento indoor',  15250000,  '2025-11-09',  '2025-11-16',  'upcoming');

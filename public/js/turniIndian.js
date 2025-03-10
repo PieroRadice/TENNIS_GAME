@@ -1,0 +1,178 @@
+import { predictions } from "./predictionsIndians.js";
+import { playersTurni } from "./playersTurniIndians.js";
+import { players } from "./players.js";
+console.log(playersTurni);
+const punteggi = [];
+/*
+i primi 4 giocatori del ranking atp, se scelti come finalisti, daranno 20 punti
+dal 5° all'8° 40 punti,
+dal 9° al 16° 80 punti,
+dal 17° al 32° 160 punti
+dal 33° al 64° 320 punti
+dal 65° al 128° 640 punti
+Per quanto riguarda il vincitore:
+dal  1° al 4° 80 punti
+dal 5° all'8° 160 punti,
+dal 9° al 16° 320 punti,
+dal 17° al 32° 640 punti
+dal 33° al 64° 1280 punti
+dal 65° al 128° 2560 punti
+*/
+const puntiRankingWinner = (ranking) => {
+  if (ranking <= 4) return 80;
+  if (ranking <= 8) return 160;
+  if (ranking <= 16) return 320;
+  if (ranking <= 32) return 640;
+  if (ranking <= 64) return 1280;
+  if (ranking <= 128) return 2560;
+};
+const puntiRankingSemi = (ranking) => {
+  if (ranking <= 4) return 20;
+  if (ranking <= 8) return 40;
+  if (ranking <= 16) return 80;
+  if (ranking <= 32) return 160;
+  if (ranking <= 64) return 320;
+  if (ranking <= 128) return 640;
+};
+
+function risultatoTurno(playerNome, turnoChar) {
+  const turno = parseInt(turnoChar);
+  const giocatore = playersTurni.find((player) => player.nome === playerNome);
+  if (!giocatore) console.error("Giocatore non trovato", playerNome);
+
+  if (giocatore.turno > turno) return "ok";
+  if (giocatore.turno < turno) return "uscito";
+  if (giocatore.turno == turno && !giocatore.giocato) return "inGara";
+  if (giocatore.turno == turno && giocatore.giocato && giocatore.vinto)
+    return "ok";
+  if (giocatore.turno == turno && giocatore.giocato && !giocatore.vinto)
+    return "esce";
+}
+// Assumendo che tu abbia una funzione per aggiungere i giocatori alla DOM
+function aggiornaStileGiocatore(playerElement, risultatoTurno) {
+  if (!playerElement) return;
+
+  // Rimuovi tutte le classi specifiche
+  playerElement.classList.remove("hidden", "transparent", "highlight");
+
+  // Applica lo stile in base al risultatoTurno
+  switch (risultatoTurno) {
+    case "uscito":
+      playerElement.classList.add("hidden");
+      break;
+    case "inGara":
+      playerElement.classList.add("transparent");
+      break;
+    case "esce":
+      playerElement.classList.add("highlight");
+      break;
+    case "ok":
+    default:
+      // Nessuna modifica
+      break;
+  }
+}
+function calcolaPunteggioGiocatore(turno, playerNome) {
+  switch (risultatoTurno(playerNome, turno)) {
+    case "uscito":
+      return false;
+      break;
+    case "esce":
+      return false;
+      break;
+    case "inGara":
+      return true;
+      break;
+    case "ok":
+      return true;
+      break;
+    default:
+      return false;
+      break;
+  }
+}
+function createCell(turno, title, playerNome, isWinner = false) {
+  const giocatore = playersTurni.find((player) => player.nome === playerNome);
+  const cell = document.createElement("div");
+  cell.className = isWinner ? "winner" : "cell";
+  let points = 0;
+  if (isWinner) {
+    points = puntiRankingWinner(players[playerNome].ranking);
+  } else {
+    points = puntiRankingSemi(players[playerNome]);
+  }
+  console.log(points);
+  aggiornaStileGiocatore(cell, risultatoTurno(giocatore.nome, turno));
+  cell.innerHTML = `
+  <div class="title">${""}</div>
+  <div class="title">punti: ${points}</div>
+  <div class="player">
+    <img src="${players[playerNome].img}" alt="${playerNome}" />
+    ${playerNome}
+  </div>
+  <div class="title">classifica: ${players[playerNome].ranking}</div>
+`;
+
+  return cell;
+}
+
+export function creaColonne(turno) {
+  const columnContainer = document.getElementById("columns");
+
+  predictions.forEach((prediction) => {
+    //creazione header con dati dello scommettitore
+    punteggi[prediction.name] = 0;
+
+    const column = document.createElement("div");
+    column.className = "column";
+
+    const headerCell = document.createElement("div");
+    headerCell.className = "header-cell";
+    headerCell.innerHTML = `
+    <img src="${prediction.img}" alt="Immagine ${prediction.name}" />
+    ${prediction.name}
+  `;
+    column.appendChild(headerCell);
+    const punteggioCell = document.createElement("div");
+    punteggioCell.className = "punteggio";
+    headerCell.appendChild(punteggioCell);
+    //creazione della pila dei tennisti
+    const content = document.createElement("div");
+    content.className = "content";
+    if (prediction.winner) {
+      content.appendChild(
+        createCell(turno, "VINCITORE", prediction.winner, true)
+      );
+      punteggi[prediction.name] +=
+        calcolaPunteggioGiocatore(turno, prediction.winner) *
+        puntiRankingWinner(players[prediction.winner].ranking);
+    }
+    if (prediction.semi1) {
+      content.appendChild(
+        createCell(turno, "ALTRO SEMIFINALISTA", prediction.semi1)
+      );
+      punteggi[prediction.name] +=
+        calcolaPunteggioGiocatore(turno, prediction.semi1) *
+        puntiRankingSemi(players[prediction.semi1].ranking);
+    }
+    if (prediction.semi2) {
+      content.appendChild(
+        createCell(turno, "ALTRO SEMIFINALISTA", prediction.semi2)
+      );
+      punteggi[prediction.name] +=
+        calcolaPunteggioGiocatore(turno, prediction.semi2) *
+        puntiRankingSemi(players[prediction.semi2].ranking);
+    }
+    if (prediction.semi3) {
+      content.appendChild(
+        createCell(turno, "ALTRO SEMIFINALISTA", prediction.semi3)
+      );
+      punteggi[prediction.name] +=
+        calcolaPunteggioGiocatore(turno, prediction.semi3) *
+        puntiRankingSemi(players[prediction.semi3].ranking);
+    }
+    punteggioCell.innerHTML = `${punteggi[prediction.name]}`;
+    column.appendChild(content);
+    columnContainer.appendChild(column);
+  });
+}

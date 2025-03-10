@@ -1,0 +1,96 @@
+🔹 Database e Sequelize
+📌 Nomi delle tabelle nel database:
+
+    Snake case e plurale
+    ✅ users,  order_items,  blog_posts
+    ❌ User,  orderItems,  BlogPost
+    Sequelize per default usa il nome del modello al singolare e lo converte in plurale nel database.
+
+📌 Nomi dei modelli Sequelize:
+
+    Singolare e PascalCase
+    ✅ User,  OrderItem,  BlogPost
+    ❌ users,  order_items,  blog_posts
+    Il nome del modello rappresenta un singolo record della tabella.
+
+📌 Nomi dei file dei modelli:
+
+    Singolare e camelCase (se il nome ha più parole,  usa kebab-case o snake_case)
+    ✅ user.js,  order-item.js,  blog-post.js
+    ❌ Users.js,  OrderItemModel.js,  blogPost.js
+
+🔹 Servizi
+📌 Nomi dei file dei service:
+
+    Singolare e camelCase
+    ✅ userService.js,  orderItemService.js,  blogPostService.js
+    ❌ UserService.js,  users-service.js
+
+📌 Nomi delle funzioni nei service:
+
+    Azioni chiare e descrittive
+    ✅ getUserById(),  createOrderItem(),  updateBlogPost(),  deleteUser()
+    ❌ findUser(),  setOrder(),  modBlogPost()
+
+🔹 Controller
+📌 Nomi delle classi dei controller:
+
+    PascalCase e suffisso "Controller"
+    ✅ UserController,  OrderItemController,  BlogPostController
+    ❌ userController,  OrderItems,  blogPostCtrl
+
+📌 Nomi dei file dei controller:
+
+    Singolare e camelCase
+    ✅ userController.js,  orderItemController.js,  blogPostController.js
+    ❌ User.controller.js,  order_items_controller.js
+
+📌 Nomi delle funzioni nei controller:
+
+    Verbi d'azione chiari
+    ✅ getAllUsers(),  getUserById(),  createUser(),  updateUser(),  deleteUser()
+    ❌ listUsers(),  showUser(),  saveUser(),  modifyUser()
+
+🔹 Routes
+📌 Nomi dei file delle route:
+
+    Plurale e camelCase
+    ✅ usersRoutes.js,  orderItemsRoutes.js,  blogPostsRoutes.js
+    ❌ user.routes.js,  routesUsers.js
+
+📌 Route per le API RESTful:
+
+Usano naming REST standard e il plurale per le risorse.
+Metodo HTTP	Route	Azione
+GET	/users	Ottieni tutti gli utenti
+GET	/users/:id	Ottieni un utente specifico
+POST	/users	Crea un nuovo utente
+PATCH	/users/:id	Aggiorna un utente (parzialmente)
+PUT	/users/:id	Aggiorna un utente (completamente)
+DELETE	/users/:id	Elimina un utente
+📌 Route per le pagine (views con Express):
+
+    Kebab-case per URL
+    ✅ /login,  /register,  /dashboard,  /profile/settings
+    ❌ /Login,  /RegisterPage,  /profile_settings
+
+    File delle route per le views
+    ✅ viewsRoutes.js,  adminRoutes.js
+    ❌ views.routes.js,  routesViews.js
+
+🔹 Altri dettagli
+📌 Nomi delle variabili:
+
+    camelCase
+    ✅ userId,  blogPostTitle,  orderTotal ❌ UserID,  blog_post_title,  order-total
+
+📌 Costanti:
+
+    MAIUSCOLO_SNAKE_CASE
+    ✅ JWT_SECRET,  DB_HOST,  MAX_RETRIES ❌ JwtSecret,  dbHost,  MaxRetries
+
+📌 Middleware:
+
+    camelCase + suffisso "Middleware"
+    ✅ authMiddleware.js,  errorHandlerMiddleware.js
+    ❌ Auth.js,  handleErrors.js

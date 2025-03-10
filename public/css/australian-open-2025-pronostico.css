@@ -1,0 +1,139 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 10px;
+}
+h1 {
+  text-align: center;
+}
+.column-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  align-items: flex-start;
+}
+.column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #ddd;
+  padding: 5px;
+  background-color: #f9f9f9;
+  width: 190px;
+  min-height: 900px;
+  box-sizing: border-box;
+}
+.header-cell {
+  flex-shrink: 0;
+  min-height: 270px;
+  max-height: 270px;
+  text-align: center;
+  font-weight: bold;
+  padding: 5px;
+  background-color: #e0e0e0;
+  margin-bottom: 5px;
+}
+.header-cell img {
+  max-width: 100%;
+  height: auto;
+  max-height: 220px;
+  display: block;
+  margin: 0 auto 5px;
+}
+.punteggio {
+  flex-shrink: 0;
+  min-height: 20px;
+  max-height: 20px;
+  text-align: center;
+  font-weight: bold;
+  padding: 5px;
+  margin-bottom: 5px;
+}
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  width: 100%;
+}
+.cell,
+.winner {
+  border: 1px solid #ccc;
+  padding: 5px;
+  margin-bottom: 5px;
+  background-color: #fff;
+  text-align: center;
+  min-height: 80px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.winner {
+  background-color: #ffe4b5;
+  font-weight: bold;
+  border-color: #ffa500;
+}
+.title {
+  font-size: 0.9em;
+  color: #555;
+  margin-bottom: 5px;
+}
+.player {
+  font-size: 1.1em;
+  font-weight: bold;
+  color: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.player img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-bottom: 5px;
+}
+.hidden {
+  display: none;
+}
+.transparent {
+  opacity: 0.5;
+}
+.highlight {
+  background-color: #ffcccc;
+}
+
+/* Stile per il bottone del pronostico */
+.pronostico-button {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.pronostico-button:hover {
+  background-color: #45a049;
+}
+@media (max-width: 768px) {
+  .column-container {
+    gap: 10px;
+  }
+  .column {
+    width: 150px;
+  }
+  .header-cell {
+    min-height: 200px;
+    max-height: 200px;
+  }
+}
+@media (max-width: 480px) {
+  .column-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  .column {
+    width: 100%;
+    max-width: 300px;
+  }
+}

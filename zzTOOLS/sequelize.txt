@@ -1,0 +1,43 @@
+
+Installazione di sequeliza  cli:
+npm install sequelize pg pg-hstore
+npm install --save-dev sequelize-cli
+
+configurazione:
+npx sequelize-cli init
+
+├── config
+│   ├── config.json  (o config.js se usi JavaScript)
+├── models
+│   ├── index.js
+├── migrations
+├── seeders
+
+Modifica il file config/config.json 
+{
+  "development": {
+    "username": "tuo_utente", 
+    "password": "tua_password", 
+    "database": "nome_database", 
+    "host": "127.0.0.1", 
+    "dialect": "postgres"
+  }
+}
+o config.js
+module.exports = {
+  development: {
+    username: "tuo_utente", 
+    password: "tua_password", 
+    database: "nome_database", 
+    host: "127.0.0.1", 
+    dialect: "postgres", 
+  }, 
+};
+generare una migrazione,  usa il comando:
+npx sequelize-cli migration:generate --name create_nome_table
+Questo creerà un file nella cartella migrations:
+migrations/20250305123456-create-nome-table.js
+ora:
+npx sequelize-cli migration:generate --name nome_table
+
+dopo l'esecuzione sarà creata la tabella nome_table nel database

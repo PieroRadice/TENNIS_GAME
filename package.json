@@ -1,0 +1,30 @@
+{
+  "name": "ws-pptp",
+  "version": "1.0.0",
+  "description": "WEB SERVICE POPOSTAPO",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Piero Luigi Radice",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "cookie-parser": "^1.4.6",
+    "csv-parser": "^3.2.0",
+    "dotenv": "^16.4.7",
+    "ejs": "^3.1.9",
+    "email-validator": "^2.0.4",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.1",
+    "nodemailer": "^6.9.4",
+    "pg": "^8.13.3",
+    "sequelize": "^6.32.1",
+    "sequelize-auto": "^0.8.8",
+    "serve-favicon": "^2.5.0"
+  },
+  "devDependencies": {
+    "@types/pg": "^8.11.11",
+    "sequelize-cli": "^6.6.2"
+  }
+}
