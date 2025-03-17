@@ -1,13 +1,13 @@
 const router = require("express").Router();
 
-const service = require("../../services/tournamentService");
+const tournamentService = require("../../services/tournamentService");
 
 router.get("/", (req, res) => {
   res.render("tornei");
 });
 router.get("/:id/pronostico", async (req, res) => {
   res.render("pronostico", {
-    tournament: await service.getTournament(req.params.id),
+    tournament: await tournamentService.getTournament(req.params.id),
   });
 });
 router.post("/:id/pronostico", async (req, res) => {

@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken");
 const db = require("../models");
 const User = db.User;
 const requireAuth = (req, res, next) => {
+  //console.log("sssss", req.url);
   const token = req.cookies.jwt;
 
   // verifica dell'esistenza del cookie jwt e verifica della validità
@@ -34,6 +35,7 @@ const checkUser = (req, res, next) => {
       async (err, decodedToken) => {
         if (err) {
           res.locals.user = null;
+
           next();
         } else {
           let user = await User.findByPk(decodedToken.uuid);

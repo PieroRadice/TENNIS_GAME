@@ -1,5 +1,6 @@
+const PredictionRow = require("../models/predictionRow");
 module.exports = function (sequelize, DataTypes) {
-  return sequelize.define(
+  const Prediction = sequelize.define(
     "Prediction",
     {
       id: {
@@ -44,6 +45,15 @@ module.exports = function (sequelize, DataTypes) {
       ],
     }
   );
+
+  Prediction.associate = (models) => {
+    Prediction.hasMany(models.PredictionRow, {
+      foreignKey: "prediction_id",
+      as: "prediction_id",
+    });
+  };
+
+  return Prediction;
 };
 
 /*

@@ -15,11 +15,12 @@ const { requireAuth, checkUser } = require("./middleware/authMiddleware");
 const authRouter = require("./routes/authRoutes");
 const tournamentViewsRouter = require("./routes/views/torneiRoutes");
 const apiRouter = require("./routes/api/apisRoutes");
-app.get("*", checkUser);
+app.use(checkUser);
 app.get("/", (req, res) => res.render("home"));
 
 app.use(authRouter);
 app.use("/tornei", requireAuth, tournamentViewsRouter);
+//app.use("/api", requireAuth, apiRouter);
 app.use("/api", requireAuth, apiRouter);
 
 const db = require("./models");

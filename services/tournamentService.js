@@ -4,6 +4,7 @@ const Tournament = db.Tournament;
 const Players = db.Players;
 const players_tournaments = db.players_tournaments;
 
+
 const getTournaments = async () => {
   try {
     return await Tournament.findAll();

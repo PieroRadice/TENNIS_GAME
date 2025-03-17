@@ -1,6 +1,5 @@
 const db = require("../../models");
 
-const Tournament = db.Tournament;
 const serviceTournament = require("../../services/tournamentService");
 
 const getTournaments = async (req, res) => {
@@ -15,10 +14,12 @@ const getTournaments = async (req, res) => {
 
 const getTournament = async (req, res) => {
   try {
-    res.status(200).json(await serviceTournament.getTournament(req.params.ID));
+    //console.log("9999999", req.params.id);
+    const tourn = await serviceTournament.getTournament(req.params.id);
+    res.status(200).json({ success: true, data: tourn });
   } catch (error) {
     console.error("Errore nel recupero del torneo:", error);
-    res.status(500).json({ error: "Errore nel recupero dei dati" });
+    res.status(500).json({ error: "Errore nel recupero del torneo" });
   }
 };
 
@@ -51,8 +52,6 @@ const putTournament = async (req, res) => {
   }
 };
 
-const Users = db.Users;
-const UsersTournaments = db.UsersTournaments;
 const getTournamentsUsers = async (req, res) => {
   try {
     res.status(200).json(await serviceTournament.getTournamentsUsers());
@@ -88,9 +87,6 @@ const getTournamentUser = async (req, res) => {
     res.status(500).json({ error: "Errore nel recupero dei dati" });
   }
 };
-
-const players_tournaments = db.Players_tournaments;
-const Players = db.Players;
 
 const getTournamentPlayers = async (req, res) => {
   try {

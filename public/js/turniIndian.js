@@ -3,21 +3,7 @@ import { playersTurni } from "./playersTurniIndians.js";
 import { players } from "./players.js";
 console.log(playersTurni);
 const punteggi = [];
-/*
-i primi 4 giocatori del ranking atp, se scelti come finalisti, daranno 20 punti
-dal 5° all'8° 40 punti,
-dal 9° al 16° 80 punti,
-dal 17° al 32° 160 punti
-dal 33° al 64° 320 punti
-dal 65° al 128° 640 punti
-Per quanto riguarda il vincitore:
-dal  1° al 4° 80 punti
-dal 5° all'8° 160 punti,
-dal 9° al 16° 320 punti,
-dal 17° al 32° 640 punti
-dal 33° al 64° 1280 punti
-dal 65° al 128° 2560 punti
-*/
+
 const puntiRankingWinner = (ranking) => {
   if (ranking <= 4) return 80;
   if (ranking <= 8) return 160;
@@ -76,36 +62,28 @@ function calcolaPunteggioGiocatore(turno, playerNome) {
   switch (risultatoTurno(playerNome, turno)) {
     case "uscito":
       return false;
-      break;
     case "esce":
       return false;
-      break;
     case "inGara":
       return true;
-      break;
     case "ok":
       return true;
-      break;
     default:
       return false;
-      break;
   }
 }
 function createCell(turno, title, playerNome, isWinner = false) {
   const giocatore = playersTurni.find((player) => player.nome === playerNome);
   const cell = document.createElement("div");
   cell.className = isWinner ? "winner" : "cell";
-  let points = 0;
-  if (isWinner) {
-    points = puntiRankingWinner(players[playerNome].ranking);
-  } else {
-    points = puntiRankingSemi(players[playerNome]);
-  }
-  console.log(points);
   aggiornaStileGiocatore(cell, risultatoTurno(giocatore.nome, turno));
   cell.innerHTML = `
   <div class="title">${""}</div>
-  <div class="title">punti: ${points}</div>
+  <div class="title">punti: ${
+    isWinner
+      ? puntiRankingWinner(players[playerNome].ranking)
+      : puntiRankingSemi(players[playerNome].ranking)
+  }</div>
   <div class="player">
     <img src="${players[playerNome].img}" alt="${playerNome}" />
     ${playerNome}
@@ -135,7 +113,7 @@ export function creaColonne(turno) {
     column.appendChild(headerCell);
     const punteggioCell = document.createElement("div");
     punteggioCell.className = "punteggio";
-    headerCell.appendChild(punteggioCell);
+    // headerCell.appendChild(punteggioCell);
     //creazione della pila dei tennisti
     const content = document.createElement("div");
     content.className = "content";

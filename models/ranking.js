@@ -25,7 +25,13 @@ module.exports = function (sequelize) {
       tableName: "rankings",
       schema: "public",
       timestamps: false,
-      indexes: [],
+      indexes: [
+        {
+          name: "player_name_index",
+          unique: true,
+          fields: [{ name: "player_name" }], // Chiave primaria su id
+        },
+      ],
     }
   );
 };
