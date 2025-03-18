@@ -30,7 +30,7 @@ CREATE TABLE public."SequelizeMeta" (
 );
 
 
-ALTER TABLE public."SequelizeMeta" OWNER TO mywebappuser;
+ALTER TABLE public."SequelizeMeta" OWNER TO postgres;
 
 --
 -- Name: players; Type: TABLE; Schema: public; Owner: postgres

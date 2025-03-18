@@ -1,13 +1,10 @@
 const db = require("../models");
 
 const Tournament = db.Tournament;
-const Players = db.Players;
-const players_tournaments = db.players_tournaments;
-
 
 const getTournaments = async () => {
   try {
-    return await Tournament.findAll();
+    return await Tournament.findAll({ order: [["datafine", "ASC"]] });
   } catch (error) {
     console.error("Errore nel recupero dei tornei:", error);
     throw error;
