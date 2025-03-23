@@ -10,18 +10,19 @@
   <body>
     <h1><%= tournament.name %></h1>
     <h2>Seleziona il vincitore</h2>
+
     <div id="semifinalists-list" class="semifinalists-container"></div>
     <button id="submit-button">Invia Pronostico</button>
-    <button id="load-button">Carica Pronostico</button>
+    <button id="delete-button">cancella Pronostico</button>
     <h2>Seleziona i semifinalisti (max 4)</h2>
     <div id="players-list" class="players-container"></div>
-
     <h3>
       Vincitore:
       <span id="winner-name"
         >Seleziona prima i semifinalisti e poi, fra di loro, il vincitore</span
       >
-      <script src="/js/pronostico.js"></script>
+    </h3>
+    <script src="/js/pronostico.js"></script>
   </body>
 </html>
 <%- include('partials/footer'); -%>

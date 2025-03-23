@@ -1,4 +1,5 @@
 const db = require("../../models");
+const playerService = require("../../services/playersService");
 
 const Players = db.Player;
 
@@ -8,6 +9,16 @@ const getPlayers = async (req, res) => {
     res.status(200).json(player);
   } catch (error) {
     console.error("Errore nel recupero degi giocatori:", error);
+    res.status(500).json({ error: "Errore nel recupero dei dati" });
+  }
+};
+const getPlayersWithRankingDate = async (req, res) => {
+  try {
+    const rankingDate = req.params.date;
+    const result = await playerService.readPlayers(false, rankingDate);
+    res.status(200).json({ success: "ok", data: result });
+  } catch (error) {
+    console.error("Errore nel recupero dei giocatori con ranking:", error);
     res.status(500).json({ error: "Errore nel recupero dei dati" });
   }
 };
@@ -159,6 +170,7 @@ const deletePlayerFromTournament = async (req, res) => {
 
 module.exports = {
   getPlayers,
+  getPlayersWithRankingDate,
   getPlayer,
   postPlayer,
   deletePlayer,

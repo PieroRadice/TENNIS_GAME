@@ -68,8 +68,35 @@ const readPrediction = async (prediction_id) => {
 };
 const readPredictionByUserIdTournamentId = async (user_uuid, tournament_id) => {
   const risultato = await readPredictions(user_uuid, tournament_id, false);
-  //risultato.forEach(el=>console.log(el)); 
+  //risultato.forEach(el=>console.log(el));
   return risultato;
+};
+const getPredictions = async (filters) => {
+  const { userUUID, tournamentId, playerId } = filters;
+  console.log("Recupero delle predictions con filtri:", filters);
+
+  try {
+    const predictions = await Prediction.findAll({
+      where: {
+        ...(userUUID && { user_uuid: userUUID }),
+        ...(tournamentId && { tournament_id: tournamentId }),
+      },
+      include: [
+        {
+          model: PredictionRow,
+          as: "rows",
+          where: playerId ? { player_id: playerId } : undefined,
+          required: playerId ? true : false, // Se playerId è presente, deve esistere almeno una riga corrispondente
+        },
+      ],
+    });
+
+    console.log("Predictions trovate:", predictions);
+    return predictions;
+  } catch (error) {
+    console.error("Errore durante il recupero delle predictions:", error);
+    throw error;
+  }
 };
 
 const createPrediction = async (predictionData) => {
@@ -111,23 +138,36 @@ const createPrediction = async (predictionData) => {
   }
 };
 
-const deletePrediction = async (prediction_id) => {
-  try {
-    await PredictionRow.destroy({ where: { prediction_id } });
-    const result = await Prediction.destroy({ where: { id: prediction_id } });
-    console.log("Prediction eliminata con successo:", prediction_id);
-    return result;
-  } catch (error) {
-    console.error("Errore durante l'eliminazione della prediction:", error);
-    throw error;
-  }
-};
+const updatePrediction = async (predictionId, updateData) => {
+  const { user_uuid, tournament_id, rows } = updateData;
+  console.log("Aggiornamento della prediction:", predictionId, updateData);
 
-const updatePrediction = async (prediction_id, updateData) => {
   try {
-    const result = await Prediction.update(updateData, {
-      where: { id: prediction_id },
+    const result = await sequelize.transaction(async (t) => {
+      // 1. Aggiorna la prediction principale
+      await Prediction.update(
+        { user_uuid, tournament_id },
+        { where: { id: predictionId }, transaction: t }
+      );
+
+      // 2. Elimina le righe esistenti per questa prediction
+      await PredictionRow.destroy({
+        where: { prediction_id: predictionId },
+        transaction: t,
+      });
+
+      // 3. Inserisci le nuove righe
+      const rowsData = rows.map((row) => ({
+        prediction_id: predictionId,
+        player_id: row.player_id,
+        prediction: row.prediction,
+      }));
+
+      await PredictionRow.bulkCreate(rowsData, { transaction: t });
+
+      return await Prediction.findByPk(predictionId, { transaction: t });
     });
+
     console.log("Prediction aggiornata con successo:", result);
     return result;
   } catch (error) {
@@ -136,18 +176,68 @@ const updatePrediction = async (prediction_id, updateData) => {
   }
 };
 
-const patchPrediction = async (prediction_id, partialData) => {
+const patchPrediction = async (predictionId, updateData) => {
+  console.log("Modifica parziale della prediction:", predictionId, updateData);
+
   try {
-    const result = await Prediction.update(partialData, {
-      where: { id: prediction_id },
+    const result = await sequelize.transaction(async (t) => {
+      // Aggiorna solo i campi forniti
+      if (updateData.user_uuid || updateData.tournament_id) {
+        await Prediction.update(
+          {
+            user_uuid: updateData.user_uuid,
+            tournament_id: updateData.tournament_id,
+          },
+          { where: { id: predictionId }, transaction: t }
+        );
+      }
+
+      if (updateData.rows) {
+        for (const row of updateData.rows) {
+          await PredictionRow.upsert(
+            {
+              prediction_id: predictionId,
+              player_id: row.player_id,
+              prediction: row.prediction,
+            },
+            { transaction: t }
+          );
+        }
+      }
+
+      return await Prediction.findByPk(predictionId, { transaction: t });
     });
-    console.log("Prediction aggiornata parzialmente con successo:", result);
+
+    console.log("Prediction modificata con successo:", result);
     return result;
   } catch (error) {
-    console.error(
-      "Errore durante l'aggiornamento parziale della prediction:",
-      error
-    );
+    console.error("Errore durante la modifica della prediction:", error);
+    throw error;
+  }
+};
+
+const deletePrediction = async (predictionId) => {
+  console.log("Eliminazione della prediction:", predictionId);
+
+  try {
+    await sequelize.transaction(async (t) => {
+      // 1. Elimina le righe collegate
+      await PredictionRow.destroy({
+        where: { prediction_id: predictionId },
+        transaction: t,
+      });
+
+      // 2. Elimina la prediction
+      await Prediction.destroy({
+        where: { id: predictionId },
+        transaction: t,
+      });
+    });
+
+    console.log("Prediction eliminata con successo");
+    return { message: "Prediction eliminata con successo" };
+  } catch (error) {
+    console.error("Errore durante l'eliminazione della prediction:", error);
     throw error;
   }
 };

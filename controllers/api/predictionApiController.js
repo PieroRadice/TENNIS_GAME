@@ -85,34 +85,53 @@ const getPredictionByUserIdTournamentId = async (req, res) => {
   }
 };
 
-const deletePredictionById = async (req, res) => {
-  try {
-    await predictionService.deletePrediction(req.params.ID);
-    res.status(204).end();
-  } catch (error) {
-    console.error("Errore nel cancellare la prediction:", error);
-    res.status(500).json({ error: "Errore nel cancellare la prediction" });
-  }
-};
-
 const postPrediction = async (req, res) => {
   const prediction = req.body;
   prediction.user_uuid = res.locals.user.dataValues.uuid;
   //console.log("res.local ", res.locals.user.dataValues.uuid);
   //console.log("prediction ", prediction);
   try {
-    const newPred = await predictionService.createPrediction(prediction);
-    res.status(200).json({ success: true, data: newPred });
+    const esistePrediction =
+      await predictionService.readPredictionByUserIdTournamentId(
+        res.locals.user.dataValues.uuid,
+        prediction.tournament_id
+      );
+    console.log("esistePrediction", esistePrediction);
+    if (esistePrediction.length === 0) {
+      const newPred = await predictionService.createPrediction(prediction);
+      res.status(200).json({ success: true, data: newPred });
+    } else {
+      const newPred = await predictionService.patchPrediction(prediction);
+      res.status(200).json({ success: true, data: newPred });
+    }
   } catch (error) {
     res.status(500).json({ error: "Errore nel creare la prediction" });
+  }
+};
+
+const deletePredictionById = async (req, res) => {
+  const _prediction = req.body;
+  try {
+    pred = await predictionService.readPredictionByUserIdTournamentId(
+      res.locals.user.dataValues.uuid,
+      _prediction.tournament_id
+    );
+    console.log("pred", pred);
+    if (pred) {
+      await predictionService.deletePrediction(pred[0].id);
+      res.status(204).end();
+    }
+  } catch (error) {
+    console.error("Errore nel cancellare la prediction:", error);
+    res.status(500).json({ error: "Errore nel cancellare la prediction" });
   }
 };
 
 module.exports = {
   getPredictions,
   getPredictionById,
-  deletePredictionById,
   getPredictionByTournamentId,
   getPredictionByUserIdTournamentId,
   postPrediction,
+  deletePredictionById,
 };

@@ -13,6 +13,7 @@ const getTournaments = async (req, res) => {
 };
 
 const getTournament = async (req, res) => {
+  //console.log(req.url);
   try {
     //console.log("9999999", req.params.id);
     const tourn = await serviceTournament.getTournament(req.params.id);
@@ -21,6 +22,15 @@ const getTournament = async (req, res) => {
     console.error("Errore nel recupero del torneo:", error);
     res.status(500).json({ error: "Errore nel recupero del torneo" });
   }
+};
+
+const getTournamentsScripts = async (req, res) => {
+  //"/:id/scripts/"
+  const tournamentId = req.params.id;
+  try {
+    const result = await serviceTournament.getTournamentsScripts(tournamentId);
+    res.status(200).json({ success: true, data: result });
+  } catch (error) {}
 };
 
 const postTournament = async (req, res) => {
@@ -124,7 +134,7 @@ module.exports = {
   postTournament,
   deleteTournament,
   putTournament,
-
+  getTournamentsScripts,
   getTournamentsUsers,
   getTournamentUsers,
   getTournamentUser,

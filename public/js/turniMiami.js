@@ -1,5 +1,5 @@
-import { predictions } from "./predictionsIndians.js";
-import { playersTurni } from "./playersTurniIndians.js";
+import { predictions } from "./predictionsMiami.js";
+import { playersTurni } from "./playersTurniMiami.js";
 import { players } from "./players.js";
 console.log(playersTurni);
 const punteggi = [];
@@ -12,8 +12,6 @@ const puntiRankingWinner = (ranking) => {
   if (ranking <= 64) return 1280;
   if (ranking <= 128) return 2560;
   if (ranking <= 128*2) return 2560*2;
-  if (ranking <= 128*2*2) return 2560*2*2;
-  if (ranking <= 128*2*2*2) return 2560*2*2*2;
 };
 const puntiRankingSemi = (ranking) => {
   if (ranking <= 4) return 20;
@@ -24,7 +22,6 @@ const puntiRankingSemi = (ranking) => {
   if (ranking <= 128) return 640;
   if (ranking <= 128*2) return 640*2;
   if (ranking <= 128*2*2) return 640*2*2;
-  if (ranking <= 128*2*2*2) return 640*2*2*2;
 };
 
 function risultatoTurno(playerNome, turnoChar) {
@@ -82,6 +79,7 @@ function createCell(turno, title, playerNome, isWinner = false) {
   const giocatore = playersTurni.find((player) => player.nome === playerNome);
   const cell = document.createElement("div");
   cell.className = isWinner ? "winner" : "cell";
+  console.log("mod: ", playerNome);
   aggiornaStileGiocatore(cell, risultatoTurno(giocatore.nome, turno));
   cell.innerHTML = `
   <div class="title">${""}</div>
@@ -119,7 +117,7 @@ export function creaColonne(turno) {
     column.appendChild(headerCell);
     const punteggioCell = document.createElement("div");
     punteggioCell.className = "punteggio";
-    // headerCell.appendChild(punteggioCell);
+    headerCell.appendChild(punteggioCell);
     //creazione della pila dei tennisti
     const content = document.createElement("div");
     content.className = "content";

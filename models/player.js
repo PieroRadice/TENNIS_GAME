@@ -1,16 +1,7 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class Player extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
-    }
-  }
+  class Player extends Model {}
   Player.init(
     {
       id: {
@@ -21,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       name: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true,
       },
       country: {
         type: DataTypes.STRING(3),
@@ -49,10 +41,10 @@ module.exports = (sequelize, DataTypes) => {
       tableName: "players",
       timestamps: false, // Disattiva `createdAt` e `updatedAt` automatici
       underscored: true, // Se segui la convenzione con underscore nei nomi delle colonne
-    },
-    {
-      sequelize,
-      modelName: "Player",
+      indexes: [
+        { unique: true, fields: ["name"] },
+        { unique: false, fields: ["country"] },
+      ],
     }
   );
   return Player;

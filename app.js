@@ -31,7 +31,7 @@ db.sequelize
     console.log("Connessione al database riuscita!");
   })
   .then(() => {
-    db.sequelize.sync({ alter: true });
+    //db.sequelize.sync({ alter: true });
   })
   .catch((err) => {
     console.error("Errore di connessione al database:", err);

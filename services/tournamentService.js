@@ -1,7 +1,8 @@
+const { where } = require("sequelize");
 const db = require("../models");
 
 const Tournament = db.Tournament;
-
+const Script = db.Script;
 const getTournaments = async () => {
   try {
     return await Tournament.findAll({ order: [["datafine", "ASC"]] });
@@ -19,6 +20,24 @@ const getTournament = async (id) => {
     return tournament;
   } catch (error) {
     console.error("Errore nel recupero del torneo:", error);
+    throw error;
+  }
+};
+
+const getTournamentsScripts = async (tournamentId, scriptName) => {
+  try {
+    const whereClause1 = {};
+    if (tournamentId) whereClause1.id = tournamentId;
+    const whereClause2 = {};
+    if (scriptName) whereClause2.name = scriptName;
+    const scripts = await Tournament.findAll({
+      //attributes:[id],
+      where: whereClause1,
+      include: [{ model: Script, required: false, where: whereClause2 }],
+    });
+    return scripts;
+  } catch (error) {
+    console.error("Errore durante il recupero degli script:", error);
     throw error;
   }
 };
@@ -56,8 +75,8 @@ const putTournament = async (id, tournament) => {
   }
 };
 
-const Users = db.Users;
-const UsersTournaments = db.UsersTournaments;
+const Users = db.User;
+const UsersTournaments = db.UserTournament;
 const getTournamentsUsers = async () => {
   try {
     const users_tournaments = await UsersTournaments.findAll({
@@ -143,6 +162,7 @@ const postAllPlayersToTournament = async (tournament_id) => {
 module.exports = {
   getTournaments,
   getTournament,
+  getTournamentsScripts,
   postTournament,
   deleteTournament,
   putTournament,
