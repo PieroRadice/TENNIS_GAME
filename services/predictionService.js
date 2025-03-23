@@ -138,34 +138,35 @@ const createPrediction = async (predictionData) => {
   }
 };
 
-const updatePrediction = async (predictionId, updateData) => {
-  const { user_uuid, tournament_id, rows } = updateData;
-  console.log("Aggiornamento della prediction:", predictionId, updateData);
+const updatePrediction = async (updateData) => {
+  console.log("updateData",updateData)
+  const { id, user_uuid, tournament_id, rows } = updateData;
+  console.log("id", id, user_uuid, tournament_id, rows);
 
   try {
     const result = await sequelize.transaction(async (t) => {
       // 1. Aggiorna la prediction principale
       await Prediction.update(
         { user_uuid, tournament_id },
-        { where: { id: predictionId }, transaction: t }
+        { where: { id }, transaction: t }
       );
 
       // 2. Elimina le righe esistenti per questa prediction
       await PredictionRow.destroy({
-        where: { prediction_id: predictionId },
+        where: { id },
         transaction: t,
       });
 
       // 3. Inserisci le nuove righe
       const rowsData = rows.map((row) => ({
-        prediction_id: predictionId,
+        prediction_id: id,
         player_id: row.player_id,
         prediction: row.prediction,
       }));
 
       await PredictionRow.bulkCreate(rowsData, { transaction: t });
 
-      return await Prediction.findByPk(predictionId, { transaction: t });
+      return await Prediction.findByPk(id, { transaction: t });
     });
 
     console.log("Prediction aggiornata con successo:", result);
@@ -176,27 +177,28 @@ const updatePrediction = async (predictionId, updateData) => {
   }
 };
 
-const patchPrediction = async (predictionId, updateData) => {
-  console.log("Modifica parziale della prediction:", predictionId, updateData);
-
+const patchPrediction = async (updateData) => {
+  const { id, user_uuid, tournament_id, rows } = updateData;
+  console.log("predictionId", id);
+  console.log("updateData", updateData);
   try {
     const result = await sequelize.transaction(async (t) => {
       // Aggiorna solo i campi forniti
-      if (updateData.user_uuid || updateData.tournament_id) {
+      if (user_uuid || tournament_id) {
         await Prediction.update(
           {
             user_uuid: updateData.user_uuid,
             tournament_id: updateData.tournament_id,
           },
-          { where: { id: predictionId }, transaction: t }
+          { where: { id }, transaction: t }
         );
       }
 
-      if (updateData.rows) {
+      if (rows) {
         for (const row of updateData.rows) {
           await PredictionRow.upsert(
             {
-              prediction_id: predictionId,
+              prediction_id: id,
               player_id: row.player_id,
               prediction: row.prediction,
             },
@@ -205,7 +207,7 @@ const patchPrediction = async (predictionId, updateData) => {
         }
       }
 
-      return await Prediction.findByPk(predictionId, { transaction: t });
+      return await Prediction.findByPk(id, { transaction: t });
     });
 
     console.log("Prediction modificata con successo:", result);

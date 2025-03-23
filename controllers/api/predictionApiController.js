@@ -101,7 +101,8 @@ const postPrediction = async (req, res) => {
       const newPred = await predictionService.createPrediction(prediction);
       res.status(200).json({ success: true, data: newPred });
     } else {
-      const newPred = await predictionService.patchPrediction(prediction);
+      await predictionService.deletePrediction(esistePrediction[0].id);
+      const newPred = await predictionService.createPrediction(prediction);
       res.status(200).json({ success: true, data: newPred });
     }
   } catch (error) {

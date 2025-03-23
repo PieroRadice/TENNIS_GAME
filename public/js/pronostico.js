@@ -281,8 +281,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
 
       if (!response.ok) throw new Error(`Errore HTTP: ${response.status}`);
-      semifinalists = [];
-      updateSemifinalists();
+      location.reload();
       alert("Pronostico eliminato!");
     } catch (error) {
       console.error("Errore nell'invio dei dati per la cancellazione:", error);
