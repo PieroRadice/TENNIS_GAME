@@ -39,6 +39,7 @@ const readPredictions = async (user_uuid, tournament_id, prediction_id) => {
         id: prediction.id,
         user_uuid: prediction.user_uuid,
         tournament_id: prediction.tournament_id,
+        img: prediction.img,
         rows: [],
       };
 
@@ -139,7 +140,7 @@ const createPrediction = async (predictionData) => {
 };
 
 const updatePrediction = async (updateData) => {
-  console.log("updateData",updateData)
+  console.log("updateData", updateData);
   const { id, user_uuid, tournament_id, rows } = updateData;
   console.log("id", id, user_uuid, tournament_id, rows);
 

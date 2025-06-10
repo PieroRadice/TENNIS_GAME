@@ -20,7 +20,7 @@ app.get("/", (req, res) => res.render("home"));
 
 app.use(authRouter);
 app.use("/tornei", requireAuth, tournamentViewsRouter);
-//app.use("/api", requireAuth, apiRouter);
+
 app.use("/api", requireAuth, apiRouter);
 
 const db = require("./models");

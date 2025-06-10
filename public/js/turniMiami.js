@@ -11,7 +11,7 @@ const puntiRankingWinner = (ranking) => {
   if (ranking <= 32) return 640;
   if (ranking <= 64) return 1280;
   if (ranking <= 128) return 2560;
-  if (ranking <= 128*2) return 2560*2;
+  if (ranking <= 128 * 2) return 2560 * 2;
 };
 const puntiRankingSemi = (ranking) => {
   if (ranking <= 4) return 20;
@@ -20,22 +20,46 @@ const puntiRankingSemi = (ranking) => {
   if (ranking <= 32) return 160;
   if (ranking <= 64) return 320;
   if (ranking <= 128) return 640;
-  if (ranking <= 128*2) return 640*2;
-  if (ranking <= 128*2*2) return 640*2*2;
+  if (ranking <= 128 * 2) return 640 * 2;
+  if (ranking <= 128 * 2 * 2) return 640 * 2 * 2;
 };
 
 function risultatoTurno(playerNome, turnoChar) {
   const turno = parseInt(turnoChar);
   const giocatore = playersTurni.find((player) => player.nome === playerNome);
   if (!giocatore) console.error("Giocatore non trovato", playerNome);
-
-  if (giocatore.turno > turno) return "ok";
-  if (giocatore.turno < turno) return "uscito";
-  if (giocatore.turno == turno && !giocatore.giocato) return "inGara";
-  if (giocatore.turno == turno && giocatore.giocato && giocatore.vinto)
-    return "ok";
-  if (giocatore.turno == turno && giocatore.giocato && !giocatore.vinto)
-    return "esce";
+  switch (turno) {
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+      if (giocatore.turno > turno) return "ok";
+      if (giocatore.turno < turno) return "uscito";
+      if (giocatore.turno == turno && !giocatore.giocato) return "inGara";
+      if (giocatore.turno == turno && giocatore.giocato && giocatore.vinto)
+        return "ok";
+      if (giocatore.turno == turno && giocatore.giocato && !giocatore.vinto)
+        return "esce";
+      break;
+    case 5:
+      if (giocatore.turno > turno) return "ok";
+      if (giocatore.turno < 5) return "uscito";
+      if (giocatore.turno == turno && !giocatore.giocato) return "inGara";
+      if (giocatore.turno == turno && giocatore.giocato && giocatore.vinto)
+        return "ok";
+      if (giocatore.turno == turno && giocatore.giocato && !giocatore.vinto)
+        return "semif";
+    case 6:
+      //if (giocatore.turno > turno) return "ok"; aso che non esiste
+      if (giocatore.turno < 5) return "uscito";
+      if (giocatore.turno === 5) return "semif";
+      if (giocatore.turno === turno && !giocatore.giocato) return "semif";
+      if (giocatore.turno === turno && giocatore.giocato && giocatore.vinto)
+        return "ok";
+      if (giocatore.turno == turno && giocatore.giocato && !giocatore.vinto)
+        return "finalist";
+      break;
+  }
 }
 // Assumendo che tu abbia una funzione per aggiungere i giocatori alla DOM
 function aggiornaStileGiocatore(playerElement, risultatoTurno) {
@@ -52,9 +76,16 @@ function aggiornaStileGiocatore(playerElement, risultatoTurno) {
     case "inGara":
       playerElement.classList.add("transparent");
       break;
-    case "esce":
+    case "semif":
+      playerElement.classList.add("transparent");
+      break;
+    case "esce": //il caso esce non si verifica in semifinale
       playerElement.classList.add("highlight");
       break;
+    case "winn":
+      playerElement.classList.add("highlight");
+      break;
+    case "finalist":
     case "ok":
     default:
       // Nessuna modifica
@@ -69,7 +100,11 @@ function calcolaPunteggioGiocatore(turno, playerNome) {
       return false;
     case "inGara":
       return true;
+    case "semif":
+      return true;
     case "ok":
+      return true;
+    case "finalist":
       return true;
     default:
       return false;
@@ -78,8 +113,10 @@ function calcolaPunteggioGiocatore(turno, playerNome) {
 function createCell(turno, title, playerNome, isWinner = false) {
   const giocatore = playersTurni.find((player) => player.nome === playerNome);
   const cell = document.createElement("div");
+  const semif = risultatoTurno(giocatore.nome, turno);
   cell.className = isWinner ? "winner" : "cell";
-  console.log("mod: ", playerNome);
+  console.log("mod: ", playerNome, "semif", semif);
+
   aggiornaStileGiocatore(cell, risultatoTurno(giocatore.nome, turno));
   cell.innerHTML = `
   <div class="title">${""}</div>
@@ -122,12 +159,22 @@ export function creaColonne(turno) {
     const content = document.createElement("div");
     content.className = "content";
     if (prediction.winner) {
-      content.appendChild(
-        createCell(turno, "VINCITORE", prediction.winner, true)
-      );
-      punteggi[prediction.name] +=
-        calcolaPunteggioGiocatore(turno, prediction.winner) *
-        puntiRankingWinner(players[prediction.winner].ranking);
+      const semif = risultatoTurno(prediction.winner, turno);
+      if (semif === "semif") {
+        content.appendChild(
+          createCell(turno, "VINCITORE", prediction.winner, false)
+        );
+        punteggi[prediction.name] +=
+          calcolaPunteggioGiocatore(turno, prediction.winner) *
+          puntiRankingSemi(players[prediction.winner].ranking);
+      } else {
+        content.appendChild(
+          createCell(turno, "VINCITORE", prediction.winner, true)
+        );
+        punteggi[prediction.name] +=
+          calcolaPunteggioGiocatore(turno, prediction.winner) *
+          puntiRankingWinner(players[prediction.winner].ranking);
+      }
     }
     if (prediction.semi1) {
       content.appendChild(

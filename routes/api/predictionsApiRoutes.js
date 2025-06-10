@@ -7,7 +7,7 @@ const controller = require("../../controllers/api/predictionApiController"); //g
 });*/
 router.get("/", controller.getPredictions); //get predictions
 router.get("/:id", controller.getPredictionById); //get player by ID
-router.get("/tournaments/:id", controller.getPredictionByTournamentId);
+router.get("/tournaments/:id", controller.getPredictionsByTournamentId);
 router.get(
   "/tournaments/:id/user",
   controller.getPredictionByUserIdTournamentId

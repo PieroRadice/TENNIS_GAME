@@ -1,3 +1,4 @@
+const { Prediction } = require("../../models");
 const predictionService = require("../../services/predictionService");
 
 const getPredictions = async (req, res) => {
@@ -35,7 +36,7 @@ const getPredictionById = async (req, res) => {
   }
 };
 
-const getPredictionByTournamentId = async (req, res) => {
+const getPredictionsByTournamentId = async (req, res) => {
   try {
     const { id } = req.params; // Estrai il parametro "id" dalla URL
 
@@ -44,21 +45,25 @@ const getPredictionByTournamentId = async (req, res) => {
     }
 
     const prediction = await predictionService.readPredictionsTournament(id);
-
+    console.log("DCcC", prediction);
     if (!prediction || prediction.length === 0) {
       return res
         .status(404)
-        .json({ success: false, message: "Prediction non trovata" });
+        .json({ success: false, message: "Prediction non trovate" });
     }
 
     res.status(200).json({ success: true, data: prediction });
   } catch (error) {
-    console.error("Errore nel recupero della prediction:", error);
+    console.error("Errore nel recupero delle prediction:", error);
     res
       .status(500)
-      .json({ success: false, message: "Errore interno del server" });
+      .json({
+        success: false,
+        message: "Errore interno del server nel recupero delle predictions",
+      });
   }
 };
+
 const getPredictionByUserIdTournamentId = async (req, res) => {
   try {
     const { id } = req.params; // Estrai il parametro "id" dalla URL
@@ -131,7 +136,7 @@ const deletePredictionById = async (req, res) => {
 module.exports = {
   getPredictions,
   getPredictionById,
-  getPredictionByTournamentId,
+  getPredictionsByTournamentId,
   getPredictionByUserIdTournamentId,
   postPrediction,
   deletePredictionById,

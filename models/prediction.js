@@ -25,6 +25,10 @@ module.exports = function (sequelize, DataTypes) {
           key: "id",
         },
       },
+      img: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+      },
     },
     {
       sequelize,

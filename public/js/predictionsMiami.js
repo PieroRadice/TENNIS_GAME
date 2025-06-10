@@ -60,6 +60,7 @@ export const predictions = [
   {
     name: "Pier",
     img: "https://www.tennisworlditalia.com/imgb/40869/la-rivista-gq-descrive-federer-come-il-migliore-di-sempre-e-partono-le-critiche.webp",
+    //img: "../immagini/Ugo.png",
     winner: "Alexander Zverev",
     semi1: "Daniil Medvedev",
     semi2: "Matteo Berrettini",
@@ -76,10 +77,18 @@ export const predictions = [
   {
     name: "Rob",
     img: "../immagini/wavrinka.png",
-    //img: "../immagini/Ugo.png",
+    //img: "../immagini/filini.png",
     winner: "Holger Rune",
     semi1: "Hubert Hurkacz",
     semi2: "Federico Cina",
     semi3: "Matteo Berrettini",
+  },
+  {
+    name: "Apollo",
+    img: "../immagini/apollo.jpg",
+    winner: "Jakub Mensik",
+    semi1: "Novak Djokovic",
+    semi2: "Taylor Fritz",
+    semi3: "Grigor Dimitrov",
   },
 ];

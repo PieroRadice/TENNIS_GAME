@@ -5,6 +5,13 @@ const tournamentService = require("../../services/tournamentService");
 router.get("/", (req, res) => {
   res.render("tornei");
 });
+
+router.get("/:id/sviluppo", async (req, res) => {
+  res.render("sviluppoTorneo", {
+    tournament: await tournamentService.getTournament(req.params.id),
+  });
+});
+
 router.get("/:id/pronostico", async (req, res) => {
   res.render("pronostico", {
     tournament: await tournamentService.getTournament(req.params.id),

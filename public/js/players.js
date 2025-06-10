@@ -1,20 +1,37 @@
 export const players = {
-  /*"Jannik Sinner": {
+  "Jannik Sinner": {
     img: "https://www.atptour.com/-/media/alias/player-headshot/s0ag",
     ranking: 1,
     winnerPoints: 80,
     semiPoints: 20,
   },
-  */
+  "Gael Monfils": {
+    img: "https://www.atptour.com/-/media/alias/player-headshot/mc65",
+    ranking: 42,
+    winnerPoints: 1280,
+    semiPoints: 320,
+  },
+  "Tommy Paul": {
+    img: "https://www.atptour.com/-/media/alias/player-headshot/pl56",
+    ranking: 12,
+    winnerPoints: 320,
+    semiPoints: 80,
+  },
+  "Corentin Moutet": {
+    img: "https://www.atptour.com/-/media/alias/player-headshot/mw02",
+    ranking: 76,
+    winnerPoints: 2560,
+    semiPoints: 640,
+  },
   "Alexander Zverev": {
     img: "https://www.atptour.com/-/media/alias/player-headshot/z355",
-    ranking: 2,
+    ranking: 3,
     winnerPoints: 80,
     semiPoints: 20,
   },
   "Carlos Alcaraz": {
     img: "https://www.atptour.com/-/media/alias/player-headshot/a0e2",
-    ranking: 3,
+    ranking: 2,
     winnerPoints: 80,
     semiPoints: 20,
   },
@@ -26,39 +43,39 @@ export const players = {
   },
   "Daniil Medvedev": {
     img: "https://www.atptour.com/-/media/alias/player-headshot/mm58",
-    ranking: 8,
+    ranking: 11,
     winnerPoints: 320,
     semiPoints: 80,
   },
   "Novak Djokovic": {
     img: "https://www.atptour.com/-/media/alias/player-headshot/d643",
-    ranking: 5,
+    ranking: 6,
     winnerPoints: 160,
     semiPoints: 40,
   },
   "Andrey Rublev": {
-    img: "https://www.atptour.com/-/media/alias/player-headshot/re44}",
-    ranking: 9,
-    winnerPoints: 320,
-    semiPoints: 80,
+    img: "https://www.atptour.com/-/media/alias/player-headshot/re44",
+    ranking: 17,
+    winnerPoints: 640,
+    semiPoints: 160,
   },
   "Jack Draper": {
     img: "https://www.atptour.com/-/media/alias/player-headshot/D0CO",
-    ranking: 7,
+    ranking: 5,
     winnerPoints: 160,
     semiPoints: 40,
   },
   "Lorenzo Musetti": {
     img: "https://www.atptour.com/-/media/alias/player-headshot/m0ej",
-    ranking: 16,
+    ranking: 8,
     winnerPoints: 320,
     semiPoints: 80,
   },
   "Alex de Minaur": {
     img: "https://www.atptour.com/-/media/alias/player-headshot/d923",
-    ranking: 11,
-    winnerPoints: 320,
-    semiPoints: 80,
+    ranking: 8,
+    winnerPoints: 160,
+    semiPoints: 40,
   },
   "Matteo Berrettini": {
     img: "https://www.atptour.com/-/media/alias/player-headshot/bk40",
@@ -68,27 +85,27 @@ export const players = {
   },
   "Ben Shelton": {
     img: "https://www.atptour.com/-/media/alias/player-headshot/s0s1",
-    ranking: 14,
+    ranking: 13,
     winnerPoints: 320,
     semiPoints: 80,
   },
-  /*
+
   "Lorenzo Sonego": {
     img: "https://www.atptour.com/-/media/alias/player-headshot/su87",
-    ranking: 37,
+    ranking: 44,
     winnerPoints: 1280,
     semiPoints: 320,
   },
-  */
+
   "Ugo Humbert": {
     img: "https://www.atptour.com/-/media/alias/player-headshot/hh26",
-    ranking: 20,
+    ranking: 22,
     winnerPoints: 640,
     semiPoints: 160,
   },
   "Casper Ruud": {
     img: "https://www.atptour.com/-/media/alias/player-headshot/rh16",
-    ranking: 6,
+    ranking: 7,
     winnerPoints: 160,
     semiPoints: 40,
   },
@@ -100,19 +117,19 @@ export const players = {
   },
   "Stefanos Tsitsipas": {
     img: "https://www.atptour.com/-/media/alias/player-headshot/te51",
-    ranking: 10,
-    winnerPoints: 320,
-    semiPoints: 80,
+    ranking: 19,
+    winnerPoints: 640,
+    semiPoints: 160,
   },
   "Hubert Hurkacz": {
     img: "https://www.atptour.com/-/media/alias/player-headshot/hb71",
-    ranking: 22,
+    ranking: 31,
     winnerPoints: 640,
     semiPoints: 160,
   },
   "Holger Rune": {
     img: "https://www.atptour.com/-/media/alias/player-headshot/r0dg",
-    ranking: 12,
+    ranking: 9,
     winnerPoints: 320,
     semiPoints: 80,
   },
@@ -121,5 +138,41 @@ export const players = {
     ranking: 441,
     winnerPoints: 10240,
     semiPoints: 2560,
+  },
+  "Jakub Mensik": {
+    img: "https://www.atptour.com/-/media/alias/player-headshot/m0ni",
+    ranking: 21,
+    winnerPoints: 640,
+    semiPoints: 160,
+  },
+  "Francisco Cerundolo": {
+    img: "https://www.atptour.com/-/media/alias/player-headshot/c0au",
+    ranking: 18,
+    winnerPoints: 640,
+    semiPoints: 160,
+  },
+  "Arthur Fils": {
+    img: "https://www.atptour.com/-/media/alias/player-headshot/f0f1",
+    ranking: 14,
+    winnerPoints: 320,
+    semiPoints: 80,
+  },
+  "Joao Fonseca": {
+    img: "https://www.atptour.com/-/media/alias/player-headshot/f0fv",
+    ranking: 65,
+    winnerPoints: 2560,
+    semiPoints: 640,
+  },
+  "Flavio Cobolli": {
+    img: "https://www.atptour.com/-/media/alias/player-headshot/c0e9",
+    ranking: 35,
+    winnerPoints: 1280,
+    semiPoints: 320,
+  },
+  "Matteo Arnaldi": {
+    img: "https://www.atptour.com/-/media/alias/player-headshot/a0fc",
+    ranking: 39,
+    winnerPoints: 1280,
+    semiPoints: 320,
   },
 };

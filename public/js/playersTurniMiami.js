@@ -8,20 +8,20 @@ export const playersTurni = [
   // 6: finale
   {
     nome: "Lorenzo Musetti",
-    turno: 2,
-    giocato: false,
+    turno: 3,
+    giocato: true,
     vinto: false,
   },
   {
     nome: "Alex de Minaur",
-    turno: 2,
+    turno: 5,
     giocato: false,
     vinto: false,
   },
   {
     nome: "Matteo Berrettini",
-    turno: 2,
-    giocato: false,
+    turno: 4,
+    giocato: true,
     vinto: false,
   },
   {
@@ -44,20 +44,20 @@ export const playersTurni = [
   },
   {
     nome: "Casper Ruud",
-    turno: 2,
-    giocato: false,
+    turno: 3,
+    giocato: true,
     vinto: false,
   },
   {
     nome: "Grigor Dimitrov",
-    turno: 2,
+    turno: 5,
     giocato: false,
     vinto: false,
   },
   {
     nome: "Stefanos Tsitsipas",
     turno: 2,
-    giocato: false,
+    giocato: true,
     vinto: false,
   },
   {
@@ -74,13 +74,13 @@ export const playersTurni = [
   },
   {
     nome: "Alexander Zverev",
-    turno: 2,
-    giocato: false,
+    turno: 3,
+    giocato: true,
     vinto: false,
   },
   {
     nome: "Taylor Fritz",
-    turno: 2,
+    turno: 5,
     giocato: false,
     vinto: false,
   },
@@ -92,8 +92,8 @@ export const playersTurni = [
   },
   {
     nome: "Novak Djokovic",
-    turno: 2,
-    giocato: false,
+    turno: 6,
+    giocato: true,
     vinto: false,
   },
   {
@@ -113,5 +113,11 @@ export const playersTurni = [
     turno: 1,
     giocato: true,
     vinto: false,
+  },
+  {
+    nome: "Jakub Mensik",
+    turno: 6,
+    giocato: true,
+    vinto: true,
   },
 ];

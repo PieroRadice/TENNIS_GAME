@@ -1,18 +1,58 @@
 document.addEventListener("DOMContentLoaded", async () => {
-  let semifinalists = [];
-  let predictionEsiste = false;
-  const playersList = document.getElementById("players-list");
-  const semifinalistsList = document.getElementById("semifinalists-list");
-  const winnerName = document.getElementById("winner-name");
-  const submitButton = document.getElementById("submit-button");
-  const deleteButton = document.getElementById("delete-button");
-
   // Funzione per ottenere i giocatori
+  //---------------------------------------------------------------
+
+  class PlayerCard {
+    constructor(player, onCheckboxChange) {
+      this.player = player;
+      this.onCheckboxChange = onCheckboxChange;
+      this.element = this.createPlayerElement();
+    }
+
+    createPlayerElement() {
+      const div = document.createElement("div");
+      div.id = `player-${this.player.name}`;
+      div.classList.add("player");
+
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.value = this.player.name;
+
+      if (this.onCheckboxChange) {
+        checkbox.onchange = (event) =>
+          this.onCheckboxChange(event, this.player);
+      }
+
+      const img = document.createElement("img");
+      img.src = this.player.image_src || "default.jpg";
+      img.alt = this.player.image_alt || this.player.name;
+
+      const punteggio = document.createElement("div");
+      punteggio.textContent = this.player.Rankings.length
+        ? `${this.player.Rankings[0].ranking} : ${this.player.puntiSemifinalist} / ${this.player.puntiWinner}`
+        : "N/D";
+
+      const label = document.createElement("label");
+      label.textContent = this.player.name;
+
+      const country = document.createElement("div");
+      country.textContent = this.player.country;
+
+      div.append(punteggio, img, checkbox, label, country);
+      return div;
+    }
+
+    getElement() {
+      return this.element;
+    }
+  }
+
   async function fetchPlayers(rankingDate) {
     try {
       const response = await fetch(`/api/players/ranking/:${rankingDate}`);
       if (!response.ok) throw new Error("Errore nel caricamento dei giocatori");
       const players = (await response.json()).data;
+      console.log(players);
       let _punteggioWinner = {};
       let _punteggioSemifinalist = {};
       if (tournament.Scripts.length) {
@@ -88,8 +128,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       name: "Jannik Sinner"
       prediction: "semifinalist"
       profile_url: "https://www.atptour.comhttps://www.atptour.com/en/players/jannik-sinner/s0ag/overview"
-
-*/
+      // */
     const convertPredictionToSemifinalist = async (predictionRow) => {
       const player = await players.find(
         (player) => player.id === predictionRow.player_id
@@ -103,6 +142,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     };
 
     semifinalistsList.innerHTML = "";
+
     if (prediction) {
       for (const el of prediction) {
         const sem = await convertPredictionToSemifinalist(el); // Ascolta la promessa
@@ -115,113 +155,119 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (!prediction) {
         player.prediction = "semifinalist";
       }
+      //definisco le azioni che devono essere fatte quando si seleziona la checkbox
+      //togliere il giocatore da semifinalist,  richaimare updateSemifinalists,
+      //cercare il giocatore fra i player e mettere checkbox.checkeda false
+      function checkBoxChange(event, player) {
+        if (event.target.checked) {
+        } else {
+          //event.target.checked = false;
+          semifinalists = semifinalists.filter((p) => p.name !== player.name);
+        }
+        const el = document
+          .getElementById("players-list")
+          .querySelector(`input[type="checkbox"][value='${player.name}']`);
+        el.checked = false;
+        updateSemifinalists();
+      }
 
+      //costruisco la playercard
+      const playerCard = new PlayerCard(player, checkBoxChange);
+      // console.log("playercard", playerCard.getElement());
+      const playerElement = playerCard.getElement();
+      const checkbox = playerElement.querySelector("input[type='checkbox']");
+      checkbox.checked = true;
+      //console.log("semifinalist", playerCard.getElement());
+      //aggiungo il radio button per indicare il finalista
       const radio = document.createElement("input");
       radio.type = "radio";
+      radio.id = "rd";
       radio.name = "winner";
       radio.value = player.name;
-      radio.onchange = function radioOnchange() {
-        //metto tutti a "semifinalist" ma il target a "winner"
-        winnerName.innerText = player.name;
-        semifinalists.forEach((p) => (p.prediction = "semifinalist"));
-        player.prediction = "winner";
-        //aggiorno lo stile aggiornando le classi
-        document
-          .querySelectorAll(".winner")
-          .forEach((el) => el.classList.remove("winner"));
-        document.getElementById(`semi-${player.name}`).classList.add("winner");
-      };
-
-      const img = document.createElement("img");
-      img.src = player.image_src || "default.jpg";
-      img.alt = player.image_alt || player.name;
-
-      const punteggio = document.createElement("div");
-      if (player.Rankings.length) {
-        punteggio.textContent = `${player.Rankings[0].ranking} : ${player.puntiSemifinalist} / ${player.puntiWinner}`;
-      } else {
-        punteggio.textContent = "N/D";
-      }
       const label = document.createElement("label");
-      label.textContent = player.name;
-
-      const country = document.createElement("div");
-      country.textContent = player.country;
-
-      const div = document.createElement("div");
-      div.classList.add("player");
-      div.id = `semi-${player.name}`;
-      div.append(punteggio, img, radio, label, country);
-
-      semifinalistsList.appendChild(div);
-      if (prediction && player.prediction == "winner") {
-        document.getElementById(`semi-${player.name}`).classList.add("winner");
-        radio.checked = true;
-      }
+      label.for = radio.id;
+      label.innerHTML = "Vincitore";
+      const d = document.createElement("div");
+      player.prediction === "winner"
+        ? (radio.checked = true)
+        : (radio.checked = false);
+      d.append(label, radio);
+      radio.onchange = function radioOnchange(event) {
+        //metto tutti a "semifinalist" ma il target a "winner"
+        //winnerName.innerText = "this.player.name";
+        if (event.target.checked) {
+          console.log("event.target.checked", event.target.checked);
+          semifinalists.forEach((p) => (p.prediction = "semifinalist"));
+          player.prediction = "winner";
+          //aggiorno lo stile aggiornando le classi
+          document
+            .querySelectorAll(".winner")
+            .forEach((el) => el.classList.remove("winner"));
+          document
+            .getElementById(`player-${player.name}`)
+            .classList.add("winner");
+        }
+      };
+      const sem = playerCard.getElement();
+      player.prediction === "winner"
+        ? sem.classList.add("winner")
+        : sem.classList.add("semifinalist");
+      sem.appendChild(d);
+      console.log(sem);
+      semifinalistsList.appendChild(sem);
+      //predictionEsiste? deleteButton.
     });
   }
+  //-----------fine updateSemifinalsits
   //---------------------------------------------------------------
+  let semifinalists = [];
+  let predictionEsiste = false;
+  const playersList = document.getElementById("players-list");
+  const semifinalistsList = document.getElementById("semifinalists-list");
+//  const winnerName = document.getElementById("winner-name");
+  const submitButton = document.getElementById("submit-button");
+  const deleteButton = document.getElementById("delete-button");
+  
   // Caricamento giocatori e creazione elementi
   const tournament = (await fetchTournament()).data[0];
-  console.log("tournament", tournament);
+  //console.log("tournament", tournament);
   const players = await fetchPlayers(tournament.ranking_date);
-
+  //console.log("players", players);
   const prediction = await fetchPrediction();
   if (predictionEsiste) await updateSemifinalists(prediction);
-  //---------------------------------------------------------------
-  players.forEach((player) => {
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.value = player.name;
+  //console.log("prediction", prediction);
 
-    //verifico che il giocatore sia nelle prediction per gestire la checkbox
-    let giocatoreInPrediction = false;
-    if (predictionEsiste) {
-      const sem = semifinalists.some((el) => {
-        return el.name === player.name;
-      });
-      //console.log("sem", sem);
-      if (sem) giocatoreInPrediction = true;
-    }
-    //funzione per scegliere il giocatore
-    checkbox.onchange = function checkBoxChange() {
-      if (checkbox.checked) {
+  players.forEach((player) => {
+    // Funzione per gestire la selezione del giocatore
+    function checkBoxChange(event, player) {
+      if (event.target.checked) {
         if (semifinalists.length < 4) {
           player.prediction = "semifinalist";
           semifinalists.push(player);
         } else {
-          checkbox.checked = false;
+          event.target.checked = false;
           alert("Puoi selezionare massimo 4 semifinalisti!");
         }
       } else {
         semifinalists = semifinalists.filter((p) => p.name !== player.name);
       }
       updateSemifinalists();
-    };
-
-    const img = document.createElement("img");
-    img.src = player.image_src || "default.jpg";
-    img.alt = player.image_alt || player.name;
-    //const rank = document.createElement("div");
-    const punteggio = document.createElement("div");
-    if (player.Rankings.length) {
-      punteggio.textContent = `${player.Rankings[0].ranking} : ${player.puntiSemifinalist} / ${player.puntiWinner}`;
-    } else {
-      punteggio.textContent = "N/D";
     }
 
-    const label = document.createElement("label");
-    label.textContent = player.name;
+    let giocatoreInPrediction = semifinalists.some(
+      (el) => el.name === player.name
+    );
 
-    const country = document.createElement("div");
-    country.textContent = player.country;
+    const playerCard = new PlayerCard(player, checkBoxChange);
+    // console.log("playercard", playerCard.getElement());
+    const playerElement = playerCard.getElement();
+    // Aggiorna lo stato della checkbox
+    const checkbox = playerElement.querySelector("input[type='checkbox']");
+    if (checkbox) {
+      checkbox.checked = giocatoreInPrediction;
+    }
 
-    const div = document.createElement("div");
-    div.classList.add("player");
-    if (giocatoreInPrediction) checkbox.checked = true;
-    div.append(punteggio, img, checkbox, label, country);
-
-    playersList.appendChild(div);
+    playersList.appendChild(playerElement);
   });
 
   // Gestione invio pronostico

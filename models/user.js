@@ -11,6 +11,11 @@ module.exports = function (sequelize) {
         allowNull: false,
         primaryKey: true,
       },
+      soprannome: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+        unique: true,
+      },
       active: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
@@ -24,9 +29,10 @@ module.exports = function (sequelize) {
         type: DataTypes.STRING(255),
         allowNull: false,
         set(value) {
+          console.log("set---------", value);
           //dobbiamo validare il valore immesso dall'utente in questa fase,  utilizzando una regex in validate andremmo a validare il risultato di bcrypt e non il valore immesso dall'utente
           const check =
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8, }$/;
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
           if (!check.test(value)) {
             throw new Error("Validation is on password failed");
           }
@@ -37,6 +43,7 @@ module.exports = function (sequelize) {
           //per recuperare la password invece occorre decriptarla per poterla confrontare con il valore immesso da parte dell'utente
         },
       },
+
       image_url: {
         type: DataTypes.STRING(255),
         allowNull: true,

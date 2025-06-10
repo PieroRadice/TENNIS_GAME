@@ -17,8 +17,8 @@ const getSignupVerify = (req, res) => {
 };
 
 const postSignup = (req, res) => {
-  //console.log("post - sign up");
   const { email, password } = req.body;
+  console.log("post - sign up", password);
   let user = null;
   User.sync({ alter: false })
     .then(() => {

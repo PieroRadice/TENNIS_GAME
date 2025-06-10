@@ -27,9 +27,9 @@ module.exports = function (sequelize) {
       timestamps: false,
       indexes: [
         {
-          name: "player_name_index",
+          name: "unique_player_date",
           unique: true,
-          fields: [{ name: "player_name" }], // Chiave primaria su id
+          fields: ["player_name", "date"],
         },
       ],
     }

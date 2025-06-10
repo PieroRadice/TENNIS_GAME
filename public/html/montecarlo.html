@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,  initial-scale=1.0" />
+    <meta name="robots" content="noindex,  nofollow" />
+    <meta name="google" content="notranslate" />
+    <meta
+      http-equiv="Cache-Control"
+      content="no-cache,  no-store,  must-revalidate"
+    />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <title>PopostapoTennis</title>
+    <link
+      rel="stylesheet"
+      href="../css/australian-open-2025-pronostico.css?v=1.0"
+    />
+    <link rel="stylesheet" href="../css/hamburger.css?v=1.0" />
+  </head>
+  <body>
+    <header>
+      <div class="hamburger-menu">
+        <button class="menu-toggle" aria-label="Toggle menu">☰</button>
+        <nav class="menu">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="#" data-source="0">Pronostici</a></li>
+            <li><a href="#" data-source="1">Primo turno</a></li>
+            <li><a href="#" data-source="2">Ottavi di finale</a></li>
+            <li><a href="#" data-source="4">Quarti di finale</a></li>
+            <li><a href="#" data-source="5">Semifinali</a></li>
+            <li><a href="#" data-source="6">Finale</a></li>
+            <!--<li><a href="#" data-source="3">Ottavi di finale</a></li>
+            -->
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <h1>PRONOSTICI Monte-Carlo Masters 2025 OPEN 2025</h1>
+    <div class="column-container" id="columns"></div>
+    <script type="module">
+      // Importa la funzione per costruire la tabella
+      import { creaColonne } from "../js/turniMontecarlo.js";
+
+      // Seleziona gli elementi del menu e associa eventi click
+      const menuToggle = document.querySelector(".menu-toggle");
+      const menu = document.querySelector(".menu");
+      const menuLinks = document.querySelectorAll(".menu a");
+      const titleElement = document.querySelector("h1"); // Seleziona l'h1
+
+      menuLinks.forEach((link) => {
+        if (link.getAttribute("href") === "/") {
+          return; // Salta il link "Home"
+        }
+        if (link.getAttribute("href") === "../../index.html") {
+          return; // Salta questo link e passa al prossimo
+        }
+        link.addEventListener("click", async (event) => {
+          event.preventDefault(); // Evita il comportamento predefinito del link
+
+          // Ottieni il file di dati specificato nell'attributo data-source
+          const tournamentID = 6;
+          const dataSource = event.target.dataset.source;
+
+          try {
+            // Chiama la funzione creaColonne con i nuovi dati
+            const columnContainer = document.getElementById("columns");
+            columnContainer.innerHTML = ""; // Resetta le colonne esistenti
+            creaColonne(dataSource);
+
+            // Modifica il contenuto dell'h1 con il testo dell'opzione selezionata
+            const selectedOptionText = event.target.textContent; // Testo dell'opzione
+            titleElement.textContent = `${selectedOptionText.toUpperCase()} Monte-Carlo Masters 2025`;
+
+            // Chiudi il menu
+            menu.classList.remove("open");
+          } catch (error) {
+            console.error("Errore durante l'importazione dei dati:", error);
+          }
+        });
+      });
+
+      // Toggle del menu
+      menuToggle.addEventListener("click", () => {
+        menu.classList.toggle("open");
+      });
+
+      // Simula il clic sull'ultima opzione del menu al caricamento della pagina
+      window.addEventListener("DOMContentLoaded", () => {
+        const lastMenuLink = menuLinks[menuLinks.length - 1]; // Seleziona l'ultima opzione del menu
+        if (lastMenuLink) {
+          lastMenuLink.click(); // Simula il clic sull'ultima opzione
+        }
+      });
+    </script>
+  </body>
+</html>

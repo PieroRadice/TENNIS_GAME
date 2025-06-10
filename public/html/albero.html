@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Albero Torneo</title>
+    <link
+      rel="stylesheet"
+      href="https://fperucic.github.io/treant-js/Treant.css"
+    />
+    <style>
+      .node {
+        padding: 5px 10px;
+        border: 1px solid #999;
+        background-color: #f9f9f9;
+        border-radius: 5px;
+      }
+      .Treant {
+        overflow: auto;
+        width: 100%;
+        height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="tree-simple" class="Treant"></div>
+
+    <script src="https://fperucic.github.io/treant-js/vendor/raphael.js"></script>
+    <script src="https://fperucic.github.io/treant-js/Treant.js"></script>
+    <script>
+      const chart_config = {
+        chart: {
+          container: "#tree-simple",
+          rootOrientation: "EAST", // I figli a sinistra del padre
+          nodeAlign: "BOTTOM",
+          connectors: {
+            type: "step",
+          },
+          node: {
+            HTMLclass: "node",
+          },
+        },
+        nodeStructure: {
+          text: { name: "Finale" },
+          children: [
+            {
+              text: { name: "Semifinale 1" },
+              children: [
+                { text: { name: "Quarti 1" } },
+                { text: { name: "Quarti 2" } },
+              ],
+            },
+            {
+              text: { name: "Semifinale 2" },
+              children: [
+                { text: { name: "Quarti 3" } },
+                { text: { name: "Quarti 4" } },
+              ],
+            },
+          ],
+        },
+      };
+
+      new Treant(chart_config);
+    </script>
+  </body>
+</html>
