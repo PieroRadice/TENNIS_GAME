@@ -175,4 +175,22 @@ export const players = {
     winnerPoints: 1280,
     semiPoints: 320,
   },
+  "Gabriel Diallo": {
+    img: "https://www.atptour.com/-/media/alias/player-headshot/d0f6",
+    ranking: 40,
+    winnerPoints: 1280,
+    semiPoints: 320,
+  },
+  "Arthur Rinderknech": {
+    img: "https://www.atptour.com/-/media/alias/player-headshot/rc91",
+    ranking: 72,
+    winnerPoints: 2560,
+    semiPoints: 640,
+  },
+  "Jiri Lehecka": {
+    img: "https://www.atptour.com/-/media/alias/player-headshot/l0bv",
+    ranking: 25,
+    winnerPoints: 640,
+    semiPoints: 160,
+  },
 };
